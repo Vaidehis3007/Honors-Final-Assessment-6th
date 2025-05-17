@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'jenkins-agent-docker-maven'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent { label 'mac-agent' }  // This runs on your Mac agent with Docker access
 
     environment {
         JAR_NAME = "AirlineManagementSystem-0.0.1-SNAPSHOT.jar"
@@ -34,16 +29,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t airline-management .'
-            }
-        }
-
-        stage('Push Docker Image (Optional)') {
-            when {
-                expression { return false }
-            }
-            steps {
-                sh 'docker tag airline-management <your_dockerhub_user>/airline-management'
-                sh 'docker push <your_dockerhub_user>/airline-management'
             }
         }
 
