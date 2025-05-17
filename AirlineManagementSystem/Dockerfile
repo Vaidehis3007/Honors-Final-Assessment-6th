@@ -1,12 +1,21 @@
-# Build stage
-FROM maven:3.9.6-eclipse-temurin-17 AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
+# Use Docker official image with Docker CLI and Docker daemon (dind)
+FROM docker:20.10.23-dind
 
-# Run stage
-FROM eclipse-temurin:17-jdk
+# Install bash, openjdk-17, maven
+RUN apk add --no-cache \
+    bash \
+    openjdk17 \
+    maven=3.9.6-r0
+
+# Set environment variables for Java and Maven
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk \
+    PATH="/usr/lib/jvm/java-17-openjdk/bin:${PATH}"
+
+# Verify versions (optional)
+RUN java -version && mvn -version && docker --version
+
+# Workdir can be set as needed (optional)
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Use bash as default shell
+CMD ["bash"]
