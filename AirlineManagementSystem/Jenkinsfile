@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'mac-agent' }  // This runs on your Mac agent with Docker access
+    agent { label 'mac-agent' }
 
     environment {
         JAR_NAME = "AirlineManagementSystem-0.0.1-SNAPSHOT.jar"
