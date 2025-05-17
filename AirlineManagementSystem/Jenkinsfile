@@ -7,8 +7,8 @@ pipeline {
 
     environment {
         JAR_NAME = "AirlineManagementSystem-0.0.1-SNAPSHOT.jar"
-        EC2_HOST = "ec2-user@<YOUR_EC2_PUBLIC_IP>"
-        PEM_KEY = credentials('your-ec2-key-id')
+        EC2_HOST = "ec2-user@54.174.2.250"
+        PEM_KEY = credentials('ec2-ssh-key')
     }
 
     stages {
